@@ -1,5 +1,37 @@
 const { ApolloServer, gql } = require('apollo-server');
 
+const usuarios = [
+  {
+    id: 1,
+    nome: 'Jose Silva',
+    email: 'jsilva@email.com',
+    idade: 29
+  },
+  {
+    id: 2,
+    nome: 'Rafael Junior',
+    email: 'rafaeljr@zemail.com',
+    idade: 31
+  },
+  {
+    id: 3,
+    nome: 'Daniela Smith',
+    email: 'danismith@uemail.com',
+    idade: 24
+  }
+];
+
+const perfis = [
+  {
+    id: 1,
+    nome: 'Comum'
+  },
+  {
+    id: 2,
+    nome: 'Administrador'
+  }
+];
+
 const typeDefs = gql`
     scalar Date
 
@@ -11,11 +43,17 @@ const typeDefs = gql`
     }
 
     type Usuario {
-      id: ID
+      id: Int
       nome: String!
       idade: Int
+      email: String!
       salario: Float
       vip: Boolean
+    }
+
+    type Perfil {
+    id: Int
+    nome: String!
     }
 
   # Pontos de entra da sua API!
@@ -25,6 +63,10 @@ const typeDefs = gql`
     usuarioLogado: Usuario
     produtoEmDestaque: Produto
     numerosMegaSena: [Int!]!
+    usuarios: [Usuario]
+    usuario(id: Int): Usuario
+    perfis: [Perfil]
+    perfil(id: Int): Perfil
   }
     
 `;
@@ -81,7 +123,32 @@ const resolvers = {
 
       return Array.from(numeros).sort((a, b) => a - b);
 
-    }
+    },
+
+    usuarios() {
+      return usuarios;
+    },
+
+    // usuario (_, args){
+    //   const selec = usuarios.filter(u => u.id === args.id)
+    //   return selec ? selec[0] : null
+    // }
+
+    usuario(_, { id }) {
+      const selec = usuarios.filter(u => u.id === id);
+      return selec ? selec[0] : null;
+    },
+
+    perfis() {
+      return perfis;
+    },
+
+    perfil(_, {id}){
+      const perfil_selecionando = perfis.filter(u => u.id === id);
+      return perfil_selecionando ? perfil_selecionando[0] : null
+    },
+
+    
 
 
 
