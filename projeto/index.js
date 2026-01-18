@@ -1,4 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server');
+const { importSchema } = require('graphql-import');
 
 const perfis = [
   {
@@ -36,48 +37,6 @@ const usuarios = [
 ];
 
 
-const typeDefs = gql`
-    scalar Date
-
-    type Produto {
-        nome: String!
-        preco: Float!
-        desconto: Float
-        precoComDesconto: Float
-    }
-
-    type Perfil {
-        id: Int
-        nome: String!
-    }
-
-    type Usuario {
-        id: Int
-        nome: String!
-        idade: Int
-        email: String!
-        salario: Float
-        vip: Boolean
-        perfil: Perfil
-    }
-
-   
-
-  # Pontos de entra da sua API!
-    type Query {
-        ola: String!
-        horaAtual: Date!
-        usuarioLogado: Usuario
-        produtoEmDestaque: Produto
-        numerosMegaSena: [Int!]!
-        usuarios: [Usuario]
-        usuario(id: Int): Usuario
-        perfis: [Perfil]
-        perfil(id: Int): Perfil
-    }
-    
-`;
-
 const resolvers = {
   Produto: {
     precoComDesconto(produto) {
@@ -90,10 +49,10 @@ const resolvers = {
   },
 
   Usuario: {
-    salario(usuario){
-      return usuario.salario_real
+    salario(usuario) {
+      return usuario.salario_real;
     },
-    perfil(usuario){
+    perfil(usuario) {
       const perfil_selecionando = perfis.filter(p => p.id === usuario.perfil_id);
       return perfil_selecionando ? perfil_selecionando[0] : null;
     }
@@ -142,7 +101,7 @@ const resolvers = {
       }
       return Array.from(numeros).sort((a, b) => a - b);
     },
-   
+
     // usuario (_, args){
     //   const selec = usuarios.filter(u => u.id === args.id)
     //   return selec ? selec[0] : null
@@ -167,15 +126,11 @@ const resolvers = {
       return perfil_selecionando ? perfil_selecionando[0] : null;
     },
 
-
-
-
-
   }
 };
 
 const server = new ApolloServer({
-  typeDefs,
+  typeDefs: importSchema('./schema/index.graphql'),
   resolvers
 });
 
