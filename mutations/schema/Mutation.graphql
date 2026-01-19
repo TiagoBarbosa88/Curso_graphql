@@ -6,18 +6,14 @@ type Mutation {
 	# ): Usuario!
 
 	# Adicionando Input
-	novoUsuario(
-    dados: UsuarioInput!
-    ): Usuario!
+	novoUsuario(dados: UsuarioInput!): Usuario!
 
 	# excluirUsuario(
 	#   id: Int
 	# ): Usuario
 
 	# Adicionando Input Excluir
-	excluirUsuario(
-    filtro: UsuarioFiltro!
-    ): Usuario
+	excluirUsuario(filtro: UsuarioFiltro!): Usuario
 
 	# alterarUsuario(
 	#   id: Int,
@@ -26,9 +22,14 @@ type Mutation {
 	#   idade: Int
 	# ): Usuario
 
- # Adicionando Input Alterar
-	alterarUsuario(
-    filtro: UsuarioFiltro!, 
-    dados: UsuarioInput!
-    ): Usuario
+	# Adicionando Input Alterar
+	alterarUsuario(filtro: UsuarioFiltro!, dados: UsuarioInput!): Usuario
+
+	# Adicionando Mutations de Perfil
+
+	novoPerfil(dados: PerfilInput): Perfil
+
+	excluirPerfil(filtro: PerfilFiltro!): Perfil
+
+	alterarPerfil(filtro: PerfilFiltro!, dados: PerfilInput!): Perfil
 }
