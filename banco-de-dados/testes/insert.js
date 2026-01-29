@@ -1,8 +1,8 @@
 const db = require('../config/db')
 
 const NovoPerfil = {
-  nome: 'visitante',
-  rotulo: 'Visitante'
+  nome: 'cadastrador',
+  rotulo: 'Cadastrador'
 }
 
 db('perfis').insert(NovoPerfil)
